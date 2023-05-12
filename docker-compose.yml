@@ -10,10 +10,17 @@ services:
         working_dir: /var/www/
         volumes:
             - ./:/var/www
+        environment:
+            DB_CONNECTION: mysql
+            DB_HOST: mysql
+            DB_PORT: 3306
+            DB_DATABASE: kanastra
+            DB_USERNAME: kanastra
+            DB_PASSWORD: kanastra
         depends_on:
             - redis
         networks:
-            - laravel
+            - kanastra-network
 
     # nginx
     nginx:
@@ -25,23 +32,23 @@ services:
             - ./:/var/www
             - ./docker/nginx/:/etc/nginx/conf.d/
         networks:
-            - laravel
+            - kanastra-network
 
-    # db mysql
-    db:
-        image: mysql:5.7.22
+    mysql:
+        image: mysql:5.7
+        container_name: kanastra-mysql
         restart: unless-stopped
         environment:
-            MYSQL_DATABASE: ${DB_DATABASE:-laravel}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
-            MYSQL_PASSWORD: ${DB_PASSWORD:-userpass}
-            MYSQL_USER: ${DB_USERNAME:-username}
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: kanastra
+            MYSQL_USER: kanastra
+            MYSQL_PASSWORD: kanastra
         volumes:
-            - ./.docker/mysql/dbdata:/var/lib/mysql
+            - ./mysql:/var/lib/mysql
         ports:
-            - "3388:3306"
+            - "3306:3306"
         networks:
-            - laravel
+            - kanastra-network
 
     # queue
     queue:
@@ -54,14 +61,14 @@ services:
             - redis
             - app
         networks:
-            - laravel
+            - kanastra-network
 
     # redis
     redis:
         image: redis:latest
         networks:
-            - laravel
+            - kanastra-network
 
 networks:
-    laravel:
+    kanastra-network:
         driver: bridge

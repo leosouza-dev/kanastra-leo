@@ -12,7 +12,6 @@ class CsvDebtImporter implements DebtImporterInterface
     public function import(UploadedFile $file): array
     {
         $csvData = array_map('str_getcsv', file($file));
-
         $header = array_shift($csvData);
         $data = [];
 
@@ -33,12 +32,11 @@ class CsvDebtImporter implements DebtImporterInterface
                     DateTime::createFromFormat('Y-m-d', $row['debtDueDate'])
                 );
                 Log::info("Classe criada: ", [$debt]);
-                $debts[] = $debt;
+                $debts[] = $debt;          
             }
         } catch (\Exception $e) {
             Log::error('Debt import failed: ' . $e->getMessage());
-        }
-
+        } 
         return $debts;
     }
 }
