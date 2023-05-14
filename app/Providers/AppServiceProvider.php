@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Domain\Debt\Services\DebtImporterInterface;
-use App\Domain\Debt\Services\CsvDebtImporter;
-use App\Domain\Debt\Repositories\DebtRepositoryInterface;
-use App\Infrastructure\Debt\Repositories\DebtRepository;
+use App\src\Application\Services\DebtImporterInterface;
+use App\src\Infrastructure\Services\CsvDebtImporter;
+use App\src\Application\Repositories\DebtRepositoryInterface;
+use App\src\Infrastructure\Repositories\DebtRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

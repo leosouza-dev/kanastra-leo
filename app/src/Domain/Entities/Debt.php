@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Domain\Debt\Entities;
+namespace App\src\Domain\Entities;
 
-use App\Domain\Debt\Enums\DebtStatus;
-use DateTimeImmutable;
+use App\src\Domain\Enums\DebtStatus;
 use Nette\Utils\DateTime;
 
 class Debt

@@ -1,5 +1,5 @@
 <?php
-namespace App\Domain\Debt\Services;
+namespace App\src\Application\Services;
 
 use Illuminate\Http\UploadedFile;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domain\Debt\UseCases;
+namespace App\src\Application\UseCases;
 
-use App\Domain\Debt\Repositories\DebtRepositoryInterface;
-use App\Domain\Debt\Services\DebtImporterInterface;
+use App\src\Application\Repositories\DebtRepositoryInterface;
+use App\src\Application\Services\DebtImporterInterface;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 
@@ -22,8 +22,8 @@ class ImportDebtListUseCase
 
     public function execute(UploadedFile $filePath): array
     {
-        $debts = [];
         try {
+            $debts = [];
             $debts = $this->debtImporter->import($filePath);
             foreach ($debts as $debt) {
                 $this->debtRepository->createDebt($debt);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Debt\Enums;
+namespace App\src\Domain\Enums;
 
 enum DebtStatus: string
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domain\Debt\Services;
+namespace App\src\Infrastructure\Services;
 
-use App\Domain\Debt\Entities\Debt;
-use App\Domain\Debt\Services\DebtImporterInterface;
+use App\src\Domain\Entities\Debt;
+use App\src\Application\Services\DebtImporterInterface;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Nette\Utils\DateTime;
