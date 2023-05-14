@@ -3,6 +3,7 @@
 namespace App\src\Infrastructure\Controllers;
 
 use App\src\Application\UseCases\ImportDebtListUseCase;
+use App\src\Application\UseCases\SendEmailToDebtorsUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -22,9 +23,9 @@ class DebtController extends Controller
         return response()->json(['message' => 'Debt list imported successfully']);
     }
 
-    public function sendEmail()
+    public function sendEmail(SendEmailToDebtorsUseCase $sendEmailToDebtorsUseCase)
     {
-
+        $sendEmailToDebtorsUseCase->execute();
         return response()->json(['message' => 'Email sent to Debtors successfully']);
     }
 }

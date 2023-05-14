@@ -10,6 +10,6 @@ use App\src\Infrastructure\Controllers\DebtController;
 
 Route::post('/debts/import', [DebtController::class, 'importCsv']);
 
-Route::post('/debts/sendEmail', [DebtController::class, 'sendEmail']);
+Route::get('/debts/sendEmail', [DebtController::class, 'sendEmail']);
 
 // Route::get('/debts/teste', [DebtController::class, 'teste']);

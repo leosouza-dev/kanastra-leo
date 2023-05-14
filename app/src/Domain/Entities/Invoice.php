@@ -71,6 +71,21 @@ class Invoice
         return $this->barcode;
     }
 
+    public function __toString(): string
+    {
+        $props = [
+            'name' => $this->name,
+            'barCode' => $this->barcode,
+            'governmentId' => $this->governmentId,
+            'email' => $this->email,
+            'debtId' => $this->debtId,
+            'debtAmount' => $this->debtAmount,
+            'debtDueDate' => $this->debtDueDate->format('Y-m-d H:i:s'),
+        ];
+
+        return json_encode($props, JSON_PRETTY_PRINT);
+    }
+
     public function generateBarCode(): string
     {
         $barCodeData = $this->name .

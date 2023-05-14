@@ -16,16 +16,16 @@ class DebtRepository implements DebtRepositoryInterface
   {
     try {
       $data = [
-          'name' => $debt->getName(),
-          'government_id' => $debt->getGovernmentId(),
-          'email' => $debt->getEmail(),
-          'debt_id' => $debt->getDebtId(),
-          'debt_amount' => $debt->getDebtAmount(),
-          'debt_due_date' => $debt->getDebtDueDate()->format('Y-m-d H:i:s'),
-          'paid_at' => $debt->getPaidAt() ? $debt->getPaidAt()->format('Y-m-d H:i:s') : null,
-          'paid_amount' => $debt->getPaidAmount(),
-          'paid_by' => $debt->getPaidBy(),
-          'status' => $debt->getStatus(),
+        'name' => $debt->getName(),
+        'government_id' => $debt->getGovernmentId(),
+        'email' => $debt->getEmail(),
+        'debt_id' => $debt->getDebtId(),
+        'debt_amount' => $debt->getDebtAmount(),
+        'debt_due_date' => $debt->getDebtDueDate()->format('Y-m-d H:i:s'),
+        'paid_at' => $debt->getPaidAt() ? $debt->getPaidAt()->format('Y-m-d H:i:s') : null,
+        'paid_amount' => $debt->getPaidAmount(),
+        'paid_by' => $debt->getPaidBy(),
+        'status' => $debt->getStatus(),
       ];
       DB::table('debts')->insert($data);
     } catch (\Exception $e) {
@@ -37,29 +37,36 @@ class DebtRepository implements DebtRepositoryInterface
   public function findDebtsWithUnpaidStatus(): Collection
   {
     $debtsWithUnpaidStatus = [];
-      try {
-          $query = DB::table('debts')
-              ->where('status', '!=', DebtStatus::PAID);
-          $results = $query->get();
-  
-          $debtsWithUnpaidStatus = collect($results)->map(function ($row) {
-              return new Debt(
-                  $row->name,
-                  $row->government_id,
-                  $row->email,
-                  $row->debt_id,
-                  $row->debt_amount,
-                  new DateTime($row->debt_due_date),
-                  $row->paid_at ? new DateTime($row->paid_at) : null,
-                  $row->paid_amount,
-                  $row->paid_by,
-                  $row->status
-              );
-          });
-      } catch (\Exception $e) {
-          Log::error('Error while query to the database: ' . $e->getMessage());
-      }
-      return $debtsWithUnpaidStatus;
+    try {
+      $query = DB::table('debts')
+        ->where('status', '!=', DebtStatus::PAID);
+      $results = $query->get();
+
+
+      $debtsWithUnpaidStatus = collect($results)->map(function ($row) {
+        $status = match ($row->status) {
+          'OPEN' => DebtStatus::OPEN,
+          'PAID' => DebtStatus::PAID,
+          'OVERDUE' => DebtStatus::OVERDUE,
+          default => null,
+        };
+
+        return new Debt(
+          $row->name,
+          $row->government_id,
+          $row->email,
+          $row->debt_id,
+          $row->debt_amount,
+          new DateTime($row->debt_due_date),
+          $row->paid_at ? new DateTime($row->paid_at) : null,
+          $row->paid_amount,
+          $row->paid_by,
+          $status
+        );
+      });
+    } catch (\Exception $e) {
+      Log::error('Error while query to the database: ' . $e->getMessage());
+    }
+    return $debtsWithUnpaidStatus;
   }
 }
-

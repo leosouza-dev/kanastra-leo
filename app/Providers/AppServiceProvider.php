@@ -6,6 +6,8 @@ use App\src\Application\Services\DebtImporterInterface;
 use App\src\Infrastructure\Services\CsvDebtImporter;
 use App\src\Application\Repositories\DebtRepositoryInterface;
 use App\src\Infrastructure\Repositories\DebtRepository;
+use App\src\Application\Services\EmailServiceInterface;
+use App\src\Infrastructure\Services\EmailService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             DebtImporterInterface::class,
             CsvDebtImporter::class
+        );
+
+        $this->app->bind(
+            EmailServiceInterface::class,
+            EmailService::class
         );
     }
 
