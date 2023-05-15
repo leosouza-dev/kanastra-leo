@@ -20,7 +20,7 @@ class ImportDebtListUseCase
         $this->debtRepository = $debtRepository;
     }
 
-    public function execute(UploadedFile $filePath): array
+    public function execute(UploadedFile $filePath)
     {
         try {
             $debts = $this->debtImporter->import($filePath);
@@ -32,6 +32,5 @@ class ImportDebtListUseCase
             Log::error('Debt import failed: ' . $e->getMessage());
             throw $e;
         }
-        return $debts;
     }
 }

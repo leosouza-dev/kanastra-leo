@@ -39,6 +39,7 @@ class SendEmailToDebtorsUseCase
       }
     } catch (\Exception $e) {
       Log::error('Email sending failed: ' . $e->getMessage());
+      throw $e;
     }
   }
 }

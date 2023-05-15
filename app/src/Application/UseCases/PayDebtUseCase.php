@@ -22,9 +22,6 @@ class PayDebtUseCase
     {
       try {
         $debt = $this->debtRepository->getById($paymentDTO->getDebtId());
-
-        // TODO: se não achar retornar falando que não existe
-
         $debt->setPaidAt(new DateTime($paymentDTO->getPaidAt()));
         $debt->setPaidAmount($paymentDTO->getPaidAmount());
         $debt->setPaidBy($paymentDTO->getPaidBy());
@@ -33,6 +30,7 @@ class PayDebtUseCase
         $this->debtRepository->update($debt);
       } catch (\Exception $e) {
         Log::error('Payment failed: ' . $e->getMessage());
+        throw $e;
       }
     }
 }

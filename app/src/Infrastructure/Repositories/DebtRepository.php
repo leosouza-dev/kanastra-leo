@@ -36,7 +36,6 @@ class DebtRepository implements DebtRepositoryInterface
 
   public function findDebtsWithUnpaidStatus(): Collection
   {
-    $debtsWithUnpaidStatus = [];
     try {
       $query = DB::table('debts')
         ->where('status', '!=', DebtStatus::PAID);
@@ -64,10 +63,11 @@ class DebtRepository implements DebtRepositoryInterface
           $status
         );
       });
+      return $debtsWithUnpaidStatus;
     } catch (\Exception $e) {
       Log::error('Error while query to the database: ' . $e->getMessage());
+      throw $e;
     }
-    return $debtsWithUnpaidStatus;
   }
 
   public function getById(string $id): Debt
