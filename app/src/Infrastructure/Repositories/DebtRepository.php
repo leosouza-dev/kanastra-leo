@@ -12,7 +12,7 @@ use Nette\Utils\DateTime;
 
 class DebtRepository implements DebtRepositoryInterface
 {
-  public function createDebt(Debt $debt): Debt
+  public function createDebt(Debt $debt)
   {
     try {
       $data = [
@@ -30,8 +30,8 @@ class DebtRepository implements DebtRepositoryInterface
       DB::table('debts')->insert($data);
     } catch (\Exception $e) {
       Log::error('Error while saving to the database: ' . $e->getMessage());
+      throw $e;
     }
-    return $debt;
   }
 
   public function findDebtsWithUnpaidStatus(): Collection

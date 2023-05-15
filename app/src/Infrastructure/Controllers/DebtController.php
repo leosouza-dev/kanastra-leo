@@ -8,6 +8,7 @@ use App\src\Application\UseCases\PayDebtUseCase;
 use App\src\Application\UseCases\SendEmailToDebtorsUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 
 class DebtController extends Controller
 {
@@ -24,6 +25,7 @@ class DebtController extends Controller
             $importDebtListUseCase->execute($file);
             return response()->json(['message' => 'Debt list imported successfully'], 200);
         } catch (\Exception $e) {
+            Log::error('Error importing debt list: ' . $e->getMessage());
             return response()->json(['error' => 'Error importing debt list'], 500);
         }
     }

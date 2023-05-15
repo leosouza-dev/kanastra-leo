@@ -7,6 +7,7 @@ use App\src\Application\Services\DebtImporterInterface;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Nette\Utils\DateTime;
+
 class CsvDebtImporter implements DebtImporterInterface
 {
     public function import(UploadedFile $file): array
@@ -21,8 +22,6 @@ class CsvDebtImporter implements DebtImporterInterface
 
         try {
             foreach ($data as $row) {
-                $dataTeste = DateTime::createFromFormat('Y-m-d', $row['debtDueDate']);
-                Log::info("Data teste: ", [$dataTeste]);
                 $debt = new Debt(
                     $row['name'],
                     $row['governmentId'],
@@ -31,12 +30,12 @@ class CsvDebtImporter implements DebtImporterInterface
                     floatval($row['debtAmount']),
                     DateTime::createFromFormat('Y-m-d', $row['debtDueDate'])
                 );
-                Log::info("Classe criada: ", [$debt]);
-                $debts[] = $debt;          
+                $debts[] = $debt;
             }
         } catch (\Exception $e) {
             Log::error('Debt import failed: ' . $e->getMessage());
-        } 
+            throw $e;
+        }
         return $debts;
     }
 }

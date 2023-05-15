@@ -23,16 +23,14 @@ class ImportDebtListUseCase
     public function execute(UploadedFile $filePath): array
     {
         try {
-            $debts = [];
             $debts = $this->debtImporter->import($filePath);
             foreach ($debts as $debt) {
                 $this->debtRepository->createDebt($debt);
             }
-            
             Log::info('Debt import succeeded aqui: ', [$debts]);
-            return $debts;
         } catch (\Exception $e) {
             Log::error('Debt import failed: ' . $e->getMessage());
+            throw $e;
         }
         return $debts;
     }

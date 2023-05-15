@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 interface DebtRepositoryInterface
 {
-    public function createDebt(Debt $debt): Debt;
+    public function createDebt(Debt $debt);
     public function findDebtsWithUnpaidStatus(): Collection;
     public function getById(string $id) : Debt;
     public function update(Debt $debt) : Debt;
