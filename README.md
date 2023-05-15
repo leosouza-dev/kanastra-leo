@@ -122,6 +122,11 @@ composer install
 php artisan key:generate
 ```
 
+9 - rodar migration
+```sh
+php artisan migrate
+```
+
 ### Endpoints
 Nese projeto temos três endpoints configurados dos arquivos de Rotas de API do Laravel.
 
