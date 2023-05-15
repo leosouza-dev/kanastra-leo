@@ -83,9 +83,19 @@ class Debt
         return $this->paidAt;
     }
 
+    public function setPaidAt(DateTime $paidAt)
+    {
+        $this->paidAt = $paidAt;
+    }
+
     public function getPaidAmount(): ?float
     {
         return $this->paidAmount;
+    }
+
+    public function setPaidAmount(float $paidAmount)
+    {
+        $this->paidAmount = $paidAmount;
     }
 
     public function getPaidBy(): ?string
@@ -93,12 +103,17 @@ class Debt
         return $this->paidBy;
     }
 
+    public function setPaidBy(string $paidBy)
+    {
+        $this->paidBy = $paidBy;
+    }
+
     public function getStatus(): DebtStatus
     {
         return $this->status;
     }
 
-    
+
     public function __toString(): string
     {
         $props = [
