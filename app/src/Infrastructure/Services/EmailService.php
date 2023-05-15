@@ -9,7 +9,6 @@ class EmailService implements EmailServiceInterface
 {
   public function send(Invoice $invoice)
   {
-    // Implementação do envio de email...
     Log::info('Sending email:', [$invoice->__toString()]);
   }
 }

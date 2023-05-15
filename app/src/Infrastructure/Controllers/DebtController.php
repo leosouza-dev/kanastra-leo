@@ -13,45 +13,56 @@ class DebtController extends Controller
 {
     public function importCsv(Request $request, ImportDebtListUseCase $importDebtListUseCase)
     {
-        if($request){
+        if ($request) {
             $request->validate([
                 'file' => 'required|mimes:csv,txt'
             ]);
         }
-        
-        $file = $request->file('file');
-        $debts = $importDebtListUseCase->execute($file);
 
-        return response()->json(['message' => 'Debt list imported successfully']);
+        try {
+            $file = $request->file('file');
+            $importDebtListUseCase->execute($file);
+            return response()->json(['message' => 'Debt list imported successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error importing debt list'], 500);
+        }
     }
 
     public function sendEmail(SendEmailToDebtorsUseCase $sendEmailToDebtorsUseCase)
     {
-        $sendEmailToDebtorsUseCase->execute();
-        return response()->json(['message' => 'Email sent to Debtors successfully']);
+        try {
+            $sendEmailToDebtorsUseCase->execute();
+            return response()->json(['message' => 'Email sent to Debtors successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to send email to Debtors'], 500);
+        }
     }
 
     public function debtPaid(Request $request, PayDebtUseCase $payDebtUseCase)
     {
-        $validatedData = $request->validate([
-            'debtId' => 'required',
-            'paidAt' => 'required',
-            'paidAmount' => 'required',
-            'paidBy' => 'required'
-        ]);
+        if ($request) {
+            $request->validate([
+                'debtId' => 'required',
+                'paidAt' => 'required',
+                'paidAmount' => 'required',
+                'paidBy' => 'required'
+            ]);
+        }
 
-        $body = $request->all();
+        try {
+            $body = $request->all();
 
-        $paymentDTO = new PaymentDTO(
-            $body['debtId'],
-            $body['paidAt'],
-            $body['paidAmount'],
-            $body['paidBy']
-        );
+            $paymentDTO = new PaymentDTO(
+                $body['debtId'],
+                $body['paidAt'],
+                $body['paidAmount'],
+                $body['paidBy']
+            );
 
-        $payDebtUseCase->execute($paymentDTO);
-        return response()->json(['message' => 'payment....... successfully']);
+            $payDebtUseCase->execute($paymentDTO);
+            return response()->json(['message' => 'Payment processed successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to process payment'], 500);
+        }
     }
 }
-
-
