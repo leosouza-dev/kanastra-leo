@@ -153,5 +153,7 @@ Devido as escolhas de Tecnologias utilizadas no desenvolvimento e ao tempo para 
 
 Alguns Exemplos de melhorias: 
 - [] Criar Autenticação - Ex: API Key para webhooks;
+- [] Utilização de documentação;
+- [] Utilização de cron job para controle de envio de email;
 - [] Criar sistema de mensageria para tratar a conversão de Arquivos CSV e Envios de Emails;
 - [] Utilização de Cache;
