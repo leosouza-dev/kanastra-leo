@@ -4,6 +4,7 @@ namespace App\src\Application\UseCases;
 
 use App\src\Application\dtos\PaymentDTO;
 use App\src\Application\Repositories\DebtRepositoryInterface;
+use App\src\Domain\Enums\DebtStatus;
 use Illuminate\Support\Facades\Log;
 use Nette\Utils\DateTime;
 
@@ -27,6 +28,7 @@ class PayDebtUseCase
         $debt->setPaidAt(new DateTime($paymentDTO->getPaidAt()));
         $debt->setPaidAmount($paymentDTO->getPaidAmount());
         $debt->setPaidBy($paymentDTO->getPaidBy());
+        $debt->setStatus(DebtStatus::PAID);
 
         $this->debtRepository->update($debt);
       } catch (\Exception $e) {

@@ -113,6 +113,11 @@ class Debt
         return $this->status;
     }
 
+    public function setStatus(DebtStatus $status)
+    {
+        $this->status = $status;
+    }
+
 
     public function __toString(): string
     {
