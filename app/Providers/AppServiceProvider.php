@@ -8,6 +8,8 @@ use App\src\Application\Repositories\DebtRepositoryInterface;
 use App\src\Infrastructure\Repositories\DebtRepository;
 use App\src\Application\Services\EmailServiceInterface;
 use App\src\Infrastructure\Services\EmailService;
+use App\src\Application\Services\InvoiceGeneratorInterface;
+use App\src\Infrastructure\Services\InvoiceGenerator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,6 +32,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             EmailServiceInterface::class,
             EmailService::class
+        );
+
+        $this->app->bind(
+            InvoiceGeneratorInterface::class,
+            InvoiceGenerator::class
         );
     }
 

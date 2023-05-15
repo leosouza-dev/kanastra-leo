@@ -3,38 +3,31 @@
 namespace App\src\Application\UseCases;
 use App\src\Application\Repositories\DebtRepositoryInterface;
 use App\src\Application\Services\EmailServiceInterface;
-use App\src\Domain\Entities\Invoice;
+use App\src\Application\Services\InvoiceGeneratorInterface;
 use Illuminate\Support\Facades\Log;
 
 class SendEmailToDebtorsUseCase
 {
   private $emailService;
   private $debtRepository;
+  private $invoiceGenerator;
 
   public function __construct(
       EmailServiceInterface $emailService,
-      DebtRepositoryInterface $debtRepository
+      DebtRepositoryInterface $debtRepository,
+      InvoiceGeneratorInterface $invoiceGenerator
   ) {
       $this->emailService = $emailService;
       $this->debtRepository = $debtRepository;
+      $this->invoiceGenerator = $invoiceGenerator;
   }
 
   public function execute() 
   {
     try {
-      $debtors = $this->debtRepository->findDebtsWithUnpaidStatus();
-      foreach ($debtors as $debtor) {
-        // TODO: pensar em ter um service de geração de boleto - pode ser uma lib externa e a entidade não precisa saber a implementação 
-        $invoice = new Invoice(
-          $debtor->getName(),
-          $debtor->getGovernmentId(),
-          $debtor->getEmail(),
-          $debtor->getDebtId(),
-          $debtor->getDebtAmount(),
-          $debtor->getDebtDueDate()
-        );
-
-        $invoice->generateBarCode();
+      $debts = $this->debtRepository->findDebtsWithUnpaidStatus();
+      foreach ($debts as $debt) {
+        $invoice = $this->invoiceGenerator->generate($debt);
         $this->emailService->send($invoice);
       }
     } catch (\Exception $e) {

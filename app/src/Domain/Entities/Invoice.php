@@ -71,6 +71,11 @@ class Invoice
         return $this->barcode;
     }
 
+    public function setBarCode(string $barcode)
+    {
+        $this->barcode = $barcode;
+    }
+
     public function __toString(): string
     {
         $props = [
@@ -84,30 +89,6 @@ class Invoice
         ];
 
         return json_encode($props, JSON_PRETTY_PRINT);
-    }
-
-    public function generateBarCode(): string
-    {
-        $barCodeData = $this->name .
-            $this->governmentId .
-            $this->email .
-            $this->debtId .
-            $this->debtAmount .
-            $this->debtDueDate->format('Ymd');
-  
-        $checksum = $this->calculateChecksum($barCodeData);
-        $this->barcode = $barCodeData . $checksum;
-  
-        return $this->barcode;
-    }
-  
-    private function calculateChecksum(string $data): string
-    {
-        $checksum = 0;
-        foreach (str_split($data) as $char) {
-            $checksum += ord($char);
-        }
-        return str_pad($checksum % 10, 1, '0', STR_PAD_LEFT);
     }
 }
 
