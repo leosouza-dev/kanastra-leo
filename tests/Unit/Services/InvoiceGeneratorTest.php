@@ -1,7 +1,6 @@
 
 <?php
 
-use App\src\Application\Services\InvoiceGeneratorInterface;
 use App\src\Domain\Entities\Debt;
 use App\src\Domain\Entities\Invoice;
 use App\src\Infrastructure\Services\InvoiceGenerator;
