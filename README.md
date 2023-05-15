@@ -149,9 +149,9 @@ Exemplo de body:
 ```
 
 ### Melhorias
-Devido as escolhas de Tecnologias utilizadas no desenvolvimento e ao tempo para entrega não fi possível finalizar o projeto como tinha planejado inicialmente.
+Devido as escolhas de Tecnologias utilizadas no desenvolvimento e ao tempo para entrega não foi possível finalizar o projeto como tinha planejado inicialmente.
 
-Alguns Exemplos: 
+Alguns Exemplos de melhorias: 
 - [] Criar Autenticação - Ex: API Key para webhooks;
 - [] Criar sistema de mensageria para tratar a conversão de Arquivos CSV e Envios de Emails;
 - [] Utilização de Cache;
